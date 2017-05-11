@@ -79,6 +79,32 @@ public class ArrayList<E> implements List<E>{
 		// TODO Auto-generated method stub
 		return size;
 	}
+
+
+	@Override
+	public Iterator<E> iterator() {
+		return new Iterator<E>(){
+			private int index = 0;
+
+			@Override
+			public boolean hasNext() {
+				return index<size;
+			}
+
+			@Override
+			public E next() {
+				return data[index++];
+			}
+			
+		};
+	}
+
+
+	@Override
+	public Object[] toArray() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 

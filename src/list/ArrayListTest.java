@@ -13,6 +13,13 @@ public class ArrayListTest {
 		list.add(33);
 		list.add(44);
 		
+		//iterator 반복자를 통한 리스트 순회
+		Iterator<Integer> it = list.iterator();
+		while(it.hasNext()){
+			int i = it.next();//auto unboxing
+			System.out.println("   " +i);
+		}
+		
 		System.out.println(list.size());
 
 		System.out.println(list.get(2));
@@ -30,6 +37,8 @@ public class ArrayListTest {
 		
 		list.removeAll();
 		System.out.println(list.size());
+		
+		
 		
 		
 		try {

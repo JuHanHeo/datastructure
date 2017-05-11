@@ -1,5 +1,6 @@
 package list;
 
+
 public class LinkedList<E> implements List<E> {
 
 	private Node<E> head;
@@ -135,6 +136,18 @@ public class LinkedList<E> implements List<E> {
 			this.data = element;
 			this.next = next;
 		}
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object[] toArray() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
