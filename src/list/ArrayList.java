@@ -22,7 +22,6 @@ public class ArrayList<E> implements List<E>{
 			temp[i] = data[i];
 		}
 		data=temp;
-		System.out.println("리사이즈");
 	}
 
 
@@ -55,10 +54,20 @@ public class ArrayList<E> implements List<E>{
 	}
 
 
-	@Override
 	public E remove(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		if( size <= index || index < 0 ) {
+			throw new IndexOutOfBoundsException( "Index:" + index + ", size:" + size );
+		}
+
+		E element = data[ index ];
+
+		for( int i = index; i < size-1; i++ ) {
+			data[ i ] = data[ i + 1 ]; 
+		}
+
+		size--;
+
+		return element;
 	}
 
 
@@ -102,8 +111,12 @@ public class ArrayList<E> implements List<E>{
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] arr = new Object[ size ];
+		for( int i = 0; i < size; i++ ) {
+			arr[ i ] = data[ i ];
+		}
+		
+		return arr;
 	}
 	
 	
