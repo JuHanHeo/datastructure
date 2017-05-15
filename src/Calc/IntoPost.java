@@ -1,11 +1,15 @@
 package Calc;
 
 
+
 import java.util.Arrays;
 
 import list.ArrayList;
+import list.List;
 import list.StackException;
 import stack.Stack;
+import tree.LinkedTree;
+import tree.LinkedTree.TreeNode;
 
 public class IntoPost {
 	ArrayList<String> li;
@@ -13,15 +17,76 @@ public class IntoPost {
 	Stack<String> resultst;
 	Stack<String> res;
 	String tmp;
-	
+	Stack<TreeNode<String>> expTree;
+
 	public IntoPost(ArrayList<String> li) {
 		this.li = li;
 		this.tmp = null;
 		opst = new Stack<String>();
 		resultst = new Stack<String>();
 		res = new Stack<String>();
+		expTree = new Stack<TreeNode<String>>();
 	}
 	
+	public double evaluteExpressionTree(TreeNode<String> node){
+		double lvalue=0;
+		double rvalue=0;
+		if(node.getLeft()!=null){
+			lvalue = evaluteExpressionTree(node.getLeft());
+		}
+		if(node.getRight()!= null){
+			rvalue = evaluteExpressionTree(node.getRight());
+		}
+		
+		switch(node.getData()){
+		case"+":
+			return lvalue + rvalue;
+		case"-":
+			return lvalue - rvalue;
+		case"*":
+			return lvalue * rvalue;
+		case"/":
+			return lvalue / rvalue;
+		default :  return Double.parseDouble(node.getData());
+		}
+	}
+
+	public LinkedTree<String> makeExpTree(Stack<String> res){
+		int cnt = res.size();
+		for(int i=0;i<cnt;i++){
+			try {
+				TreeNode<String> node = new TreeNode<String>(res.pop2());
+//				System.out.println(i+"=" + node.getData());
+				if(node.getData().equals("+")||node.getData().equals("-")||node.getData().equals("*")||node.getData().equals("/")){	//연사자인경우
+					
+					node.setRight(expTree.pop());
+					node.setLeft(expTree.pop());
+//					System.out.println(node.getData() + node.getLeft().getData() + node.getRight().getData());
+					
+					if(i==cnt-1){
+						LinkedTree<String> tree = new LinkedTree<>(node);
+						List<String> list = new ArrayList<String>();
+						tree.traversalPostorder(list);
+//						System.out.println(Arrays.toString(list.toArray()));
+						return tree;
+
+					}else{
+						expTree.add(node);
+					}
+					
+				}else{	//피연사자인경우
+					expTree.add(node);
+				}
+			} catch (StackException e) {
+				e.printStackTrace();
+			}
+
+
+		}
+		return null;
+
+	}
+
 	public int checkOp(String s) { //연산자 우선순위
 
 		if (s.equals("+")) {
@@ -39,7 +104,7 @@ public class IntoPost {
 			return -1;
 		}
 	}
-	
+
 	public double CalDouble(double first, double second, String opr) {
 
 		double num = 0;
@@ -63,7 +128,7 @@ public class IntoPost {
 		}
 		return num;
 	}
-	
+
 	public Stack<String> changeFix() throws StackException {
 
 		int lisize = li.size();
@@ -116,11 +181,11 @@ public class IntoPost {
 			resultst.push(opst.pop());
 		}
 
-		
+
 		return resultst;
 
 	}
-	
+
 	public void CalStack() throws NumberFormatException, StackException {
 
 		int size = resultst.size();
@@ -128,7 +193,7 @@ public class IntoPost {
 		double first = 0;
 		double second = 0;
 		double tmp = 0;
-		
+
 		System.out.println("PostFix -> "+Arrays.toString(resultst.toArray()));
 		for (int i = 0; i < size; i++) {
 			if (checkOp(resultst.get(i)) == 0) {
@@ -146,6 +211,10 @@ public class IntoPost {
 			}
 		}
 	}
+
+
+
+
 
 
 }

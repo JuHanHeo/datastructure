@@ -16,6 +16,14 @@ public class Stack<E> extends ArrayList<E> {
 		return remove(size() - 1);
 
 	}
+	
+	public E pop2() throws StackException {
+		if (isEmpty()) {
+			throw new StackException("stack is empty");
+		}
+		return remove(0);
+
+	}
 
 	public E peek() {
 		return get(size() - 1);
